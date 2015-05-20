@@ -1,4 +1,4 @@
-package com.samnoedel.reader;
+package com.samnoedel.reader.validation;
 
 import android.support.annotation.Nullable;
 
