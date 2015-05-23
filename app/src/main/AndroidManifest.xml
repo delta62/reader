@@ -18,6 +18,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activities.RssFeedActivity"
+            android:label="@string/title_activity_rss_feed" >
+        </activity>
+        <activity
+            android:name=".activities.HtmlReaderActivity"
+            android:label="@string/title_activity_html_reader" >
+        </activity>
     </application>
 
 </manifest>
