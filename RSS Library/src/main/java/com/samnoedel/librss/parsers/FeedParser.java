@@ -23,7 +23,7 @@ public class FeedParser {
     public RssFeed parseFeed(InputStream stream) throws XmlPullParserException, IOException {
         try {
             initializeParser(stream);
-            RssFeedItemParser itemParser = new RssFeedItemParser();
+            RssFeedItemParser itemParser = new RssFeedItemParser(mParser);
             return new RssFeedParser(mParser, itemParser).parse(mParser);
         } finally {
             stream.close();

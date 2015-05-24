@@ -1,38 +1,31 @@
 package com.samnoedel.reader.activities;
 
 import android.app.FragmentManager;
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.samnoedel.reader.R;
-import com.samnoedel.reader.fragments.RssFeedListFragment;
-import com.samnoedel.reader.fragments.RssOmnibarFragment;
-import com.samnoedel.reader.service.FeedDownloadService;
+import com.samnoedel.reader.fragments.HtmlReaderFragment;
 
-
-public class MainActivity extends FragmentActivity {
-
-    private static final String TAG_MAIN_ACTIVITY = MainActivity.class.getName();
+public class HtmlReaderActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_html_reader);
 
         FragmentManager fm = getFragmentManager();
         fm.beginTransaction()
-                .add(R.id.fragmentOmnibar, new RssOmnibarFragment())
-                .add(R.id.fragmentContainer, new RssFeedListFragment())
+                .add(R.id.fragment, new HtmlReaderFragment())
                 .commit();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_html_reader, menu);
         return true;
     }
 

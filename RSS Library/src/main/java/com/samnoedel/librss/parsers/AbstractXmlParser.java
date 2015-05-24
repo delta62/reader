@@ -8,15 +8,21 @@ import java.util.HashMap;
 
 public abstract class AbstractXmlParser {
 
-    private int mDepth;
-
     protected XmlPullParser mParser;
     protected HashMap<String, IXmlTagParser> mChildParsers;
 
     public AbstractXmlParser(XmlPullParser parser) {
-        mDepth = 0;
         mParser = parser;
         mChildParsers = new HashMap<>();
+    }
+
+    /**
+     * Called on implementors whenever an item has been parsed from the document
+     * @param tagName The XML tag that was just parsed into an object
+     * @param parsedElement The element that was parsed
+     */
+    protected void onChildElementParsed(String tagName, Object parsedElement) {
+        // Default is a no-op
     }
 
     /**
@@ -51,6 +57,9 @@ public abstract class AbstractXmlParser {
                 skipTag();
             }
         }
+
+        // Skip over element's closing tag
+        mParser.next();
     }
 
     private boolean isParserRegistered(String tagName) {
@@ -58,15 +67,18 @@ public abstract class AbstractXmlParser {
     }
 
     private void skipTag() throws IOException, XmlPullParserException {
+        mParser.require(XmlPullParser.START_TAG, null, null);
         mParser.next();
+        int depth = 1;
+
         while (true) {
             int eventType = mParser.getEventType();
             mParser.next();
             if (eventType == XmlPullParser.START_TAG) {
-                mDepth += 1;
+                depth += 1;
             } else if (eventType == XmlPullParser.END_TAG) {
-                mDepth -= 1;
-                if (mDepth == 0) {
+                depth -= 1;
+                if (depth == 0) {
                     return;
                 }
             }
@@ -75,6 +87,7 @@ public abstract class AbstractXmlParser {
 
     private void parseChildTag(String tagName) throws IOException, XmlPullParserException {
         IXmlTagParser parser = mChildParsers.get(tagName);
-        parser.parse(mParser);
+        Object parsedItem = parser.parse(mParser);
+        onChildElementParsed(parser.getStartTag(), parsedItem);
     }
 }

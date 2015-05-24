@@ -2,6 +2,7 @@ package com.samnoedel.librss;
 
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.samnoedel.librss.models.RssFeed;
 import com.samnoedel.librss.parsers.FeedParser;
@@ -16,10 +17,11 @@ import java.net.URLConnection;
 
 public class GetFeedTask extends AsyncTask<URL, Void, RssFeed> {
 
-    public Exception mException;
+    private static final String TAG = GetFeedTask.class.getName();
 
     @Override
     protected RssFeed doInBackground(URL... params) {
+        Log.i(TAG, "Fetching RSS feed");
         if (!validateTaskParams(params)) {
             return null;
         }
@@ -27,13 +29,13 @@ public class GetFeedTask extends AsyncTask<URL, Void, RssFeed> {
     }
 
     @Nullable
-    private RssFeed getFeed(URL feedUrl) {
+    private static RssFeed getFeed(URL feedUrl) {
         InputStream inputStream = null;
         try {
             inputStream = getFeedInputStream(feedUrl);
             return new FeedParser().parseFeed(inputStream);
         } catch (IOException | XmlPullParserException ex) {
-            mException = ex;
+            Log.e(TAG, "Error while fetching RSS feed", ex);
             return null;
         }
         finally {
@@ -41,28 +43,26 @@ public class GetFeedTask extends AsyncTask<URL, Void, RssFeed> {
         }
     }
 
-    private void tryCloseInputStream(InputStream inputStream) {
+    private static void tryCloseInputStream(InputStream inputStream) {
         try {
             inputStream.close();
-        } catch (IOException ex) {
-            mException = ex;
-        }
+        } catch (IOException ignored) { }
     }
 
-    private boolean validateTaskParams(URL... params) {
+    private static boolean validateTaskParams(URL... params) {
         if (params.length != 1) {
-            mException = new Exception("GetFeedTask must be called with exactly one URL.");
+            Log.e(TAG, "GetFeedTask must be called with exactly one URL.");
             return false;
         }
         if (params[0] == null) {
-            mException = new NullPointerException("GetFeedTask called with null URL");
+            Log.e(TAG, "GetFeedTask called with null URL");
             return false;
         }
         return true;
     }
 
     @Nullable
-    private BufferedInputStream getFeedInputStream(URL feedUrl) {
+    private static BufferedInputStream getFeedInputStream(URL feedUrl) {
         try {
             URLConnection connection = feedUrl.openConnection();
             InputStream inputStream = connection.getInputStream();

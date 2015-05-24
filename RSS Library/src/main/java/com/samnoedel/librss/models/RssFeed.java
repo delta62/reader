@@ -7,6 +7,7 @@ public class RssFeed {
     private URL mUrl;
     private String mTitle;
     private String mDescription;
+    private RssFeedItem[] mFeedItems;
 
     public URL getUrl() {
         return mUrl;
@@ -32,4 +33,11 @@ public class RssFeed {
         mDescription = description;
     }
 
+    public RssFeedItem[] getFeedItems() {
+        return mFeedItems;
+    }
+
+    public void setFeedItems(RssFeedItem[] feedItems) {
+        mFeedItems = feedItems;
+    }
 }

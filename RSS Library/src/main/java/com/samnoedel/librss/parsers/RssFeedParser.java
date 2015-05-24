@@ -1,11 +1,14 @@
 package com.samnoedel.librss.parsers;
 
 import com.samnoedel.librss.models.RssFeed;
+import com.samnoedel.librss.models.RssFeedItem;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 public class RssFeedParser extends AbstractXmlParser implements IXmlTagParser<RssFeed> {
 
@@ -16,6 +19,8 @@ public class RssFeedParser extends AbstractXmlParser implements IXmlTagParser<Rs
     private TextParser mTitleParser;
     private TextParser mDescriptionParser;
     private UrlParser mLinkParser;
+    private RssFeed mParsedFeed;
+    private List<RssFeedItem> mFeedItems;
 
     public RssFeedParser(XmlPullParser parser, RssFeedItemParser itemParser) {
         super(parser);
@@ -27,19 +32,34 @@ public class RssFeedParser extends AbstractXmlParser implements IXmlTagParser<Rs
     }
 
     public RssFeed getParsedElement() {
-        RssFeed parsedFeed = new RssFeed();
-        parsedFeed.setTitle(mTitleParser.getParsedElement());
-        parsedFeed.setDescription(mDescriptionParser.getParsedElement());
-        parsedFeed.setUrl(mLinkParser.getParsedElement());
-        return parsedFeed;
+        if (mParsedFeed == null) {
+            mParsedFeed = new RssFeed();
+            mParsedFeed.setTitle(mTitleParser.getParsedElement());
+            mParsedFeed.setDescription(mDescriptionParser.getParsedElement());
+            mParsedFeed.setUrl(mLinkParser.getParsedElement());
+
+            RssFeedItem[] feedItemArray = new RssFeedItem[mFeedItems.size()];
+            feedItemArray = mFeedItems.toArray(feedItemArray);
+            mParsedFeed.setFeedItems(feedItemArray);
+        }
+        return mParsedFeed;
     }
 
     public RssFeed parse(XmlPullParser parser) throws IOException, XmlPullParserException {
+        mFeedItems = new LinkedList<>();
         skipWrappers();
         initializeChildParsers();
         registerChildParsers();
         parseChildren();
         return getParsedElement();
+    }
+
+    @Override
+    protected void onChildElementParsed(String tagName, Object parsedElement) {
+        if (!tagName.equals("item")) {
+            return;
+        }
+        mFeedItems.add((RssFeedItem)parsedElement);
     }
 
     private void skipWrappers() throws IOException, XmlPullParserException {

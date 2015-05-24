@@ -16,13 +16,17 @@
     <string name="label_view_feeds">View Feeds</string>
     <string name="title_activity_feed_list">FeedListActivity</string>
 
+    <!-- Error strings -->
+    <string name="fetch_rss_error">Unable to load the RSS stream. Did you enter the right URL?</string>
 
     <!-- RSS feed list fragment -->
     <string name="feeds_title">RSS Feeds</string>
     <string name="title_activity_rss_feed">RssFeedActivity</string>
 
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_html_reader">HtmlReaderActivity</string>
+    <!-- Service strings -->
+    <string name="service_name">RSS Reader download service</string>
+    <string name="service_started">Started the service!</string>
+    <string name="service_stopped">Stopped the service!</string>
+    <string name="no_feeds">Use the address bar above to add a feed</string>
 
 </resources>
