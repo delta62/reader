@@ -1,6 +1,5 @@
 package com.samnoedel.reader.fragments;
 
-import android.app.ListFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -58,7 +57,7 @@ public class RssFeedListFragment extends OrmLiteListFragment {
 
             RssFeed feed = getItem(position);
             TextView titleTextView = (TextView)convertView.findViewById(R.id.rss_feed_list_item_title);
-            titleTextView.setText(feed.getName());
+            titleTextView.setText(feed.getTitle());
             TextView descriptionTextView = (TextView)convertView.findViewById(R.id.rss_feed_list_item_description);
             descriptionTextView.setText(feed.getDescription());
 

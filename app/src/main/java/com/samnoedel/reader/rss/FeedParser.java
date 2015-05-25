@@ -1,8 +1,8 @@
-package com.samnoedel.librss.parsers;
+package com.samnoedel.reader.rss;
 
 import android.util.Xml;
 
-import com.samnoedel.librss.models.RssFeed;
+import com.samnoedel.reader.storage.RssFeed;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;

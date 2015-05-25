@@ -3,34 +3,41 @@ package com.samnoedel.reader.storage;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.net.URL;
+import java.util.List;
+
 @DatabaseTable(tableName = "rss_feeds")
 public class RssFeed {
 
     @DatabaseField(id = true, columnName = "url", canBeNull = false)
-    private String mUrl;
+    private String mUrlText;
+    private URL mUrl;
 
     @DatabaseField(columnName = "title", canBeNull = false)
-    private String mName;
+    private String mTitle;
 
     @DatabaseField(columnName = "description", canBeNull = false)
     private String mDescription;
 
+    private List<RssFeedItem> mFeedItems;
+
     public RssFeed() { }
 
-    public String getUrl() {
+    public URL getUrl() {
         return mUrl;
     }
 
-    public void setUrl(String url) {
+    public void setUrl(URL url) {
         mUrl = url;
+        mUrlText = url.toString();
     }
 
-    public String getName() {
-        return mName;
+    public String getTitle() {
+        return mTitle;
     }
 
-    public void setName(String name) {
-        mName = name;
+    public void setTitle(String name) {
+        mTitle = name;
     }
 
     public String getDescription() {
@@ -41,17 +48,16 @@ public class RssFeed {
         mDescription = description;
     }
 
-    @Override
-    public String toString() {
-        return mName;
+    public List<RssFeedItem> getFeedItems() {
+        return mFeedItems;
     }
 
-    public static RssFeed fromLibraryFeed(com.samnoedel.librss.models.RssFeed feed) {
-        RssFeed mappedFeed = new RssFeed();
-        mappedFeed.setName(feed.getTitle());
-        mappedFeed.setDescription(feed.getDescription());
-        mappedFeed.setUrl(feed.getUrl().toString());
+    public void setFeedItems(List<RssFeedItem> feedItems) {
+        mFeedItems = feedItems;
+    }
 
-        return mappedFeed;
+    @Override
+    public String toString() {
+        return mTitle;
     }
 }

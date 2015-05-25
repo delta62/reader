@@ -1,11 +1,10 @@
-package com.samnoedel.librss;
+package com.samnoedel.reader.rss;
 
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.samnoedel.librss.models.RssFeed;
-import com.samnoedel.librss.parsers.FeedParser;
+import com.samnoedel.reader.storage.RssFeed;
 
 import org.xmlpull.v1.XmlPullParserException;
 

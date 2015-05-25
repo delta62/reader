@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
-import com.samnoedel.librss.GetFeedTask;
+import com.samnoedel.reader.rss.GetFeedTask;
 import com.samnoedel.reader.R;
 import com.samnoedel.reader.storage.RssFeed;
 import com.samnoedel.reader.validation.URLParser;
@@ -66,7 +66,7 @@ public class RssOmnibarFragment extends OrmLiteFragment {
     private void getFeed(URL url) {
         GetFeedTask feedTask = new GetFeedTask();
         try {
-            RssFeed feed = RssFeed.fromLibraryFeed(feedTask.execute(url).get());
+            RssFeed feed = feedTask.execute(url).get();
             if (feed == null) {
                 throw new Exception("returned feed was null");
             }

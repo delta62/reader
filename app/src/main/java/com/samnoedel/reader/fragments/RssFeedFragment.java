@@ -11,13 +11,13 @@ import android.widget.TextView;
 import com.samnoedel.reader.R;
 import com.samnoedel.reader.storage.RssFeed;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public class RssFeedFragment extends Fragment {
 
     public static final String EXTRA_FEED_URL = "com.samnoedel.reader.feed_url";
 
-    private TextView mLinkTextView;
-    private TextView mDescriptionTextView;
-    private TextView mNameTextView;
     private RssFeed mFeed;
 
     public RssFeedFragment() {
@@ -27,11 +27,14 @@ public class RssFeedFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         String feedUrl = getActivity().getIntent().getStringExtra(EXTRA_FEED_URL);
         mFeed = new RssFeed();
-        mFeed.setName("Test Feed");
+        mFeed.setTitle("Test Feed");
         mFeed.setDescription("Test Feed Description");
-        mFeed.setUrl(feedUrl);
+        try {
+            mFeed.setUrl(new URL(feedUrl));
+        } catch (MalformedURLException ignored) { }
 
         getActivity().setTitle("Test Feed");
     }
@@ -41,12 +44,12 @@ public class RssFeedFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_rss_feed, container, false);
 
-        mNameTextView = (TextView)v.findViewById(R.id.feedName);
-        mNameTextView.setText(mFeed.getName());
-        mDescriptionTextView = (TextView)v.findViewById(R.id.feedDescription);
-        mDescriptionTextView.setText(mFeed.getDescription());
-        mLinkTextView = (TextView)v.findViewById(R.id.feedLink);
-        mLinkTextView.setText(mFeed.getUrl());
+        TextView nameTextView = (TextView) v.findViewById(R.id.feedName);
+        nameTextView.setText(mFeed.getTitle());
+        TextView descriptionTextView = (TextView) v.findViewById(R.id.feedDescription);
+        descriptionTextView.setText(mFeed.getDescription());
+        TextView linkTextView = (TextView) v.findViewById(R.id.feedLink);
+        linkTextView.setText(mFeed.getUrl().toString());
 
         return v;
     }

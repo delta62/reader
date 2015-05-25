@@ -1,7 +1,7 @@
-package com.samnoedel.librss.parsers;
+package com.samnoedel.reader.rss;
 
-import com.samnoedel.librss.models.RssFeed;
-import com.samnoedel.librss.models.RssFeedItem;
+import com.samnoedel.reader.storage.RssFeed;
+import com.samnoedel.reader.storage.RssFeedItem;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -37,10 +37,7 @@ public class RssFeedParser extends AbstractXmlParser implements IXmlTagParser<Rs
             mParsedFeed.setTitle(mTitleParser.getParsedElement());
             mParsedFeed.setDescription(mDescriptionParser.getParsedElement());
             mParsedFeed.setUrl(mLinkParser.getParsedElement());
-
-            RssFeedItem[] feedItemArray = new RssFeedItem[mFeedItems.size()];
-            feedItemArray = mFeedItems.toArray(feedItemArray);
-            mParsedFeed.setFeedItems(feedItemArray);
+            mParsedFeed.setFeedItems(mFeedItems);
         }
         return mParsedFeed;
     }
