@@ -55,7 +55,7 @@ public class RssFeedItemListFragment extends OrmLiteListFragment {
     public void onListItemClick(ListView l, View v, int position, long id) {
         RssFeedItem feedItem = (RssFeedItem)getListAdapter().getItem(position);
         Intent i = new Intent(getActivity(), HtmlReaderActivity.class);
-        i.putExtra(HtmlReaderFragment.EXTRA_HTML_CONTENT, "<h1>Hello reader</h1>");
+        i.putExtra(HtmlReaderActivity.EXTRA_FEED_ITEM_URL, feedItem.getLink().toString());
         startActivity(i);
     }
 

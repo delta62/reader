@@ -14,13 +14,13 @@ import java.util.List;
 public class RssFeed implements Serializable {
 
     private static final String TAG = RssFeed.class.getName();
-    @DatabaseField(id = true, columnName = "url", canBeNull = false)
+    public static final String COLUMN_FEED_ID = "url";
+
+    @DatabaseField(id = true, columnName = COLUMN_FEED_ID, canBeNull = false)
     private String mUrlText;
     private URL mUrl;
-
     @DatabaseField(columnName = "title", canBeNull = false)
     private String mTitle;
-
     @DatabaseField(columnName = "description", canBeNull = false)
     private String mDescription;
 

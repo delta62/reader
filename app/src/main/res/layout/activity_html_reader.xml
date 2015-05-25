@@ -1,7 +1,6 @@
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
           android:id="@+id/fragment"
-          android:name="com.samnoedel.reader.fragments.HtmlReaderFragment"
           tools:layout="@layout/fragment_html_reader"
           android:paddingLeft="@dimen/activity_horizontal_margin"
           android:paddingRight="@dimen/activity_horizontal_margin"

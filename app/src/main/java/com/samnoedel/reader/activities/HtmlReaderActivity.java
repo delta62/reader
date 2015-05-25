@@ -1,5 +1,6 @@
 package com.samnoedel.reader.activities;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -11,14 +12,19 @@ import com.samnoedel.reader.fragments.HtmlReaderFragment;
 
 public class HtmlReaderActivity extends FragmentActivity {
 
+    public static final String EXTRA_FEED_ITEM_URL = "feed_item_url";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_html_reader);
 
+        String feedItemUrl = getIntent().getStringExtra(EXTRA_FEED_ITEM_URL);
+        Fragment readerFragment = HtmlReaderFragment.newInstance(feedItemUrl);
+
         FragmentManager fm = getFragmentManager();
         fm.beginTransaction()
-                .add(R.id.fragment, new HtmlReaderFragment())
+                .add(R.id.fragment, readerFragment)
                 .commit();
     }
 
