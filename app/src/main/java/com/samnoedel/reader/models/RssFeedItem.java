@@ -3,10 +3,12 @@ package com.samnoedel.reader.models;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.io.Serializable;
 import java.net.URL;
+import java.util.Date;
 
 @DatabaseTable(tableName = "rss_feed_items")
-public class RssFeedItem {
+public class RssFeedItem implements Serializable {
 
     @DatabaseField(columnName = "rss_feed_url", foreign = true)
     private RssFeed mRssFeed;
@@ -17,6 +19,8 @@ public class RssFeedItem {
     @DatabaseField(id = true, columnName = "url", canBeNull = false)
     private String mLinkText;
     private URL mLink;
+    @DatabaseField(columnName = "download_date", canBeNull = true)
+    private Date mDownloadDate;
 
     public String getTitle() {
         return mTitle;
@@ -44,6 +48,14 @@ public class RssFeedItem {
 
     public URL getLink() {
         return mLink;
+    }
+
+    public Date getDownloadDate() {
+        return mDownloadDate;
+    }
+
+    public void setDownloadDate(Date downloadDate) {
+        mDownloadDate = downloadDate;
     }
 
     public void setLink(URL link) {

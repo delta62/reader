@@ -3,11 +3,12 @@ package com.samnoedel.reader.models;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.io.Serializable;
 import java.net.URL;
 import java.util.List;
 
 @DatabaseTable(tableName = "rss_feeds")
-public class RssFeed {
+public class RssFeed implements Serializable {
 
     @DatabaseField(id = true, columnName = "url", canBeNull = false)
     private String mUrlText;

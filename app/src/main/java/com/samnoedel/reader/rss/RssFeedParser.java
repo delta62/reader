@@ -32,17 +32,15 @@ public class RssFeedParser extends AbstractXmlParser implements IXmlTagParser<Rs
     }
 
     public RssFeed getParsedElement() {
-        if (mParsedFeed == null) {
-            mParsedFeed = new RssFeed();
-            mParsedFeed.setTitle(mTitleParser.getParsedElement());
-            mParsedFeed.setDescription(mDescriptionParser.getParsedElement());
-            mParsedFeed.setUrl(mLinkParser.getParsedElement());
-            mParsedFeed.setFeedItems(mFeedItems);
-        }
+        mParsedFeed.setTitle(mTitleParser.getParsedElement());
+        mParsedFeed.setDescription(mDescriptionParser.getParsedElement());
+        mParsedFeed.setUrl(mLinkParser.getParsedElement());
+        mParsedFeed.setFeedItems(mFeedItems);
         return mParsedFeed;
     }
 
     public RssFeed parse(XmlPullParser parser) throws IOException, XmlPullParserException {
+        mParsedFeed = new RssFeed();
         mFeedItems = new LinkedList<>();
         skipWrappers();
         initializeChildParsers();

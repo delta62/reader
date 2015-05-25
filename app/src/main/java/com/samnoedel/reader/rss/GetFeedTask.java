@@ -61,13 +61,9 @@ public class GetFeedTask extends AsyncTask<URL, Void, RssFeed> {
     }
 
     @Nullable
-    private static BufferedInputStream getFeedInputStream(URL feedUrl) {
-        try {
-            URLConnection connection = feedUrl.openConnection();
-            InputStream inputStream = connection.getInputStream();
-            return new BufferedInputStream(inputStream);
-        } catch (Exception ex) {
-            return null;
-        }
+    private static BufferedInputStream getFeedInputStream(URL feedUrl) throws IOException {
+        URLConnection connection = feedUrl.openConnection();
+        InputStream inputStream = connection.getInputStream();
+        return new BufferedInputStream(inputStream);
     }
 }
