@@ -17,6 +17,7 @@ import com.samnoedel.reader.rss.RssFeedItemDownloader;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -56,13 +57,7 @@ public class FeedDownloadService extends Service {
 
         Bundle bundle = intent.getExtras();
         String feedUrl = bundle.getString(EXTRA_FEED_URL);
-        RssFeed feed = getRssFeed(feedUrl);
-        if (feed == null) {
-            // TODO: This is definitely not a good way to prevent the service from being started again.
-            return START_NOT_STICKY;
-        }
-
-        List<RssFeedItem> feedItems = feed.getFeedItems();
+        List<RssFeedItem> feedItems = getRssFeedItems(feedUrl);
         RssFeedItemDownloader feedDownloader = new RssFeedItemDownloader(getApplicationContext());
         for (RssFeedItem feedItem : feedItems) {
             try {
@@ -94,13 +89,20 @@ public class FeedDownloadService extends Service {
         context.startService(intent);
     }
 
-    private RssFeed getRssFeed(String feedUrl) {
+    private List<RssFeedItem> getRssFeedItems(String feedUrl) {
         try {
             Dao<RssFeed, String> feedDao = getDatabaseHelper().getRssFeedDao();
-            return feedDao.queryForId(feedUrl);
+            Dao<RssFeedItem, String> itemDao = getDatabaseHelper().getRssFeedItemDao();
+            RssFeed feed = feedDao.queryForId(feedUrl);
+            List<RssFeedItem> items = itemDao.queryForEq(RssFeedItem.COLUMN_RSS_FEED_ID, feedUrl);
+
+            for(RssFeedItem feedItem : items) {
+                feedItem.setRssFeed(feed);
+            }
+            return items;
         } catch (SQLException ex) {
-            Log.e(TAG, "Unable to find feed requested for download", ex);
-            return null;
+            Log.e(TAG, "Error fetching feed items", ex);
+            return new LinkedList<>();
         }
     }
 

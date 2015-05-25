@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
+import com.samnoedel.reader.models.RssFeedItem;
 import com.samnoedel.reader.rss.GetFeedTask;
 import com.samnoedel.reader.R;
 import com.samnoedel.reader.models.RssFeed;
@@ -81,9 +82,15 @@ public class RssOmnibarFragment extends OrmLiteFragment {
                 throw new NetworkErrorException("Unable to fetch RSS file");
             }
 
-            Dao<RssFeed, String> dao = getDatabaseHelper().getRssFeedDao();
-            dao.create(feed);
+            Dao<RssFeed, String> rssFeedDao = getDatabaseHelper().getRssFeedDao();
+            rssFeedDao.create(feed);
             Log.i(TAG, "Persisted new feed");
+
+            Dao<RssFeedItem, String> rssFeedItemDao = getDatabaseHelper().getRssFeedItemDao();
+            for (RssFeedItem feedItem : feed.getFeedItems()) {
+                rssFeedItemDao.create(feedItem);
+                Log.i(TAG, "Persisted new feed item");
+            }
 
             FeedDownloadService.triggerFeedDownload(getActivity(), feed);
         } catch (SQLException ex) {

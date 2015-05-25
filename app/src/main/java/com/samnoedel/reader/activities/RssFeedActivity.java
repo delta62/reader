@@ -20,7 +20,7 @@ public class RssFeedActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rss_feed);
 
-        String feedUrl = "";
+        String feedUrl = getIntent().getStringExtra(EXTRA_FEED_URL);
         Fragment feedFragment = RssFeedFragment.newInstance(feedUrl);
 
         FragmentManager fm = getFragmentManager();

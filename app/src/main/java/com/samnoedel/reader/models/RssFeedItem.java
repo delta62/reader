@@ -1,16 +1,23 @@
 package com.samnoedel.reader.models;
 
+import android.util.Log;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
 
 @DatabaseTable(tableName = "rss_feed_items")
 public class RssFeedItem implements Serializable {
 
-    @DatabaseField(columnName = "rss_feed_url", foreign = true)
+    public static final String COLUMN_RSS_FEED_ID = "rss_feed_url";
+
+    private static final String TAG = RssFeedItem.class.getName();
+
+    @DatabaseField(columnName = COLUMN_RSS_FEED_ID, foreign = true)
     private RssFeed mRssFeed;
     @DatabaseField(columnName = "title", canBeNull = false)
     private String mTitle;
@@ -47,6 +54,13 @@ public class RssFeedItem implements Serializable {
     }
 
     public URL getLink() {
+        if (mLink == null && mLinkText != null) {
+            try {
+                mLink = new URL(mLinkText);
+            } catch (MalformedURLException e) {
+                Log.e(TAG, "Error while attempting to implicitly create feed item url");
+            }
+        }
         return mLink;
     }
 
