@@ -1,4 +1,4 @@
-package com.samnoedel.reader.storage;
+package com.samnoedel.reader.models;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -8,16 +8,26 @@ import java.net.URL;
 @DatabaseTable(tableName = "rss_feed_items")
 public class RssFeedItem {
 
+    @DatabaseField(columnName = "rss_feed_url", foreign = true)
+    private RssFeed mRssFeed;
     @DatabaseField(columnName = "title", canBeNull = false)
     private String mTitle;
     @DatabaseField(columnName = "description", canBeNull = false)
     private String mDescription;
-    @DatabaseField(columnName = "url", canBeNull = false)
+    @DatabaseField(id = true, columnName = "url", canBeNull = false)
     private String mLinkText;
     private URL mLink;
 
     public String getTitle() {
         return mTitle;
+    }
+
+    public RssFeed getRssFeed() {
+        return mRssFeed;
+    }
+
+    public void setRssFeed(RssFeed rssFeed) {
+        mRssFeed = rssFeed;
     }
 
     public void setTitle(String title) {

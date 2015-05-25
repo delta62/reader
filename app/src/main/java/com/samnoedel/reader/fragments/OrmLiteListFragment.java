@@ -3,7 +3,7 @@ package com.samnoedel.reader.fragments;
 import android.app.ListFragment;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.samnoedel.reader.storage.DatabaseHelper;
+import com.samnoedel.reader.models.DatabaseHelper;
 
 public class OrmLiteListFragment extends ListFragment {
     private DatabaseHelper mDatabaseHelper;

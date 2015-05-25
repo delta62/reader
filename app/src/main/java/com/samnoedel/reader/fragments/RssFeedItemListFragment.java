@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.samnoedel.reader.R;
 import com.samnoedel.reader.activities.HtmlReaderActivity;
-import com.samnoedel.reader.storage.RssFeedItem;
+import com.samnoedel.reader.models.RssFeedItem;
 
 import java.util.ArrayList;
 

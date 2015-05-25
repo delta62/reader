@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.j256.ormlite.dao.Dao;
 import com.samnoedel.reader.R;
 import com.samnoedel.reader.activities.RssFeedActivity;
-import com.samnoedel.reader.storage.RssFeed;
+import com.samnoedel.reader.models.RssFeed;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
 package com.samnoedel.reader.rss;
 
-import com.samnoedel.reader.storage.RssFeedItem;
+import com.samnoedel.reader.models.RssFeedItem;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;

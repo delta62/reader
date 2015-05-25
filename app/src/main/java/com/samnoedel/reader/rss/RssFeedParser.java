@@ -1,7 +1,7 @@
 package com.samnoedel.reader.rss;
 
-import com.samnoedel.reader.storage.RssFeed;
-import com.samnoedel.reader.storage.RssFeedItem;
+import com.samnoedel.reader.models.RssFeed;
+import com.samnoedel.reader.models.RssFeedItem;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -56,7 +56,9 @@ public class RssFeedParser extends AbstractXmlParser implements IXmlTagParser<Rs
         if (!tagName.equals("item")) {
             return;
         }
-        mFeedItems.add((RssFeedItem)parsedElement);
+        RssFeedItem parsedFeedItem = (RssFeedItem)parsedElement;
+        parsedFeedItem.setRssFeed(mParsedFeed);
+        mFeedItems.add(parsedFeedItem);
     }
 
     private void skipWrappers() throws IOException, XmlPullParserException {

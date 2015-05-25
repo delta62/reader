@@ -2,7 +2,7 @@ package com.samnoedel.reader.rss;
 
 import android.util.Xml;
 
-import com.samnoedel.reader.storage.RssFeed;
+import com.samnoedel.reader.models.RssFeed;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;

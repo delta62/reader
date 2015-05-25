@@ -4,7 +4,7 @@ import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.samnoedel.reader.storage.RssFeed;
+import com.samnoedel.reader.models.RssFeed;
 
 import org.xmlpull.v1.XmlPullParserException;
 

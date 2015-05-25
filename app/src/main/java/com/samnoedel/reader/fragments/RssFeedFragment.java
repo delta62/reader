@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.samnoedel.reader.R;
-import com.samnoedel.reader.storage.RssFeed;
+import com.samnoedel.reader.models.RssFeed;
 
 import java.net.MalformedURLException;
 import java.net.URL;

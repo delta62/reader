@@ -1,4 +1,4 @@
-package com.samnoedel.reader.storage;
+package com.samnoedel.reader.models;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

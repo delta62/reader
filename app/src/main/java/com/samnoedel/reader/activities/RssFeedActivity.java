@@ -6,11 +6,9 @@ import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
 import com.samnoedel.reader.R;
 import com.samnoedel.reader.fragments.RssFeedFragment;
 import com.samnoedel.reader.fragments.RssFeedItemListFragment;
-import com.samnoedel.reader.storage.DatabaseHelper;
 
 public class RssFeedActivity extends FragmentActivity {
 
