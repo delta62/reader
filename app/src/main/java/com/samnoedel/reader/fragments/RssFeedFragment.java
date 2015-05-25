@@ -2,23 +2,34 @@ package com.samnoedel.reader.fragments;
 
 
 import android.os.Bundle;
-import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.j256.ormlite.dao.Dao;
 import com.samnoedel.reader.R;
 import com.samnoedel.reader.models.RssFeed;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.sql.SQLException;
 
-public class RssFeedFragment extends Fragment {
+public class RssFeedFragment extends OrmLiteFragment {
 
-    public static final String EXTRA_FEED_URL = "com.samnoedel.reader.feed_url";
+    private static final String ARG_FEED_URL = "feed_url";
+    private static final String TAG = RssFeedFragment.class.getName();
 
     private RssFeed mFeed;
+
+    public static RssFeedFragment newInstance(String feedUrl) {
+        RssFeedFragment fragment = new RssFeedFragment();
+
+        Bundle args = new Bundle();
+        args.putString(ARG_FEED_URL, feedUrl);
+        fragment.setArguments(args);
+
+        return fragment;
+    }
 
     public RssFeedFragment() {
         // Required empty public constructor
@@ -27,22 +38,26 @@ public class RssFeedFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        String feedUrl = getActivity().getIntent().getStringExtra(EXTRA_FEED_URL);
-        mFeed = new RssFeed();
-        mFeed.setTitle("Test Feed");
-        mFeed.setDescription("Test Feed Description");
+        String feedUrl = getArguments().getString(ARG_FEED_URL);
         try {
-            mFeed.setUrl(new URL(feedUrl));
-        } catch (MalformedURLException ignored) { }
-
-        getActivity().setTitle("Test Feed");
+            Dao<RssFeed, String> feedDao = getDatabaseHelper().getRssFeedDao();
+            mFeed = feedDao.queryForId(feedUrl);
+            getActivity().setTitle(mFeed.getTitle());
+        } catch (SQLException ex) {
+            Log.e(TAG, "Unable to fetch feed with URL of " + feedUrl);
+            mFeed = null;
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_rss_feed, container, false);
+
+        // TODO: Does this make sense? What should happen if the feed can't be found?
+        if (mFeed == null) {
+            return v;
+        }
 
         TextView nameTextView = (TextView) v.findViewById(R.id.feedName);
         nameTextView.setText(mFeed.getTitle());

@@ -1,6 +1,6 @@
 package com.samnoedel.reader.fragments;
 
-import android.content.Intent;
+import android.accounts.NetworkErrorException;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,11 +16,12 @@ import com.j256.ormlite.dao.Dao;
 import com.samnoedel.reader.rss.GetFeedTask;
 import com.samnoedel.reader.R;
 import com.samnoedel.reader.models.RssFeed;
-import com.samnoedel.reader.rss.RssFeedItemDownloader;
 import com.samnoedel.reader.service.FeedDownloadService;
 import com.samnoedel.reader.validation.URLParser;
 
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.concurrent.ExecutionException;
 
 public class RssOmnibarFragment extends OrmLiteFragment {
 
@@ -29,6 +30,12 @@ public class RssOmnibarFragment extends OrmLiteFragment {
     private Button mAddButton;
     private EditText mAddText;
 
+    public static RssOmnibarFragment getInstance() {
+        //noinspection deprecation
+        return new RssOmnibarFragment();
+    }
+
+    @Deprecated
     public RssOmnibarFragment() {
         // Required empty public constructor
     }
@@ -67,32 +74,23 @@ public class RssOmnibarFragment extends OrmLiteFragment {
     }
 
     private void getFeed(URL url) {
-        GetFeedTask feedTask = new GetFeedTask();
         try {
+            GetFeedTask feedTask = new GetFeedTask();
             RssFeed feed = feedTask.execute(url).get();
             if (feed == null) {
-                throw new Exception("returned feed was null");
+                throw new NetworkErrorException("Unable to fetch RSS file");
             }
+
             Dao<RssFeed, String> dao = getDatabaseHelper().getRssFeedDao();
             dao.create(feed);
             Log.i(TAG, "Persisted new feed");
 
-            if (feed.getFeedItems().size() > 0) {
-                downloadFirstFeedItem(feed);
-                Log.i(TAG, "Downloaded first feed item");
-            } else {
-                Log.w(TAG, "There are no items in this feed to download");
-            }
-
-        } catch (Exception ex) {
+            FeedDownloadService.triggerFeedDownload(getActivity(), feed);
+        } catch (SQLException ex) {
+            Log.e(TAG, "Unable to save feed to the database", ex);
+        } catch (InterruptedException|ExecutionException |NetworkErrorException ex) {
             Log.e(TAG, "Error while retrieving RSS feed", ex);
             Toast.makeText(getActivity(), R.string.fetch_rss_error, Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private void downloadFirstFeedItem(RssFeed f) {
-        Intent intent = new Intent(getActivity(), FeedDownloadService.class);
-        intent.putExtra(RssFeedItemDownloader.EXTRA_ITEM_URL, f.getFeedItems().get(0));
-        getActivity().startService(intent);
     }
 }

@@ -1,5 +1,6 @@
 package com.samnoedel.reader.activities;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -12,14 +13,19 @@ import com.samnoedel.reader.fragments.RssFeedItemListFragment;
 
 public class RssFeedActivity extends FragmentActivity {
 
+    public static final String EXTRA_FEED_URL = "feed_url";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rss_feed);
 
+        String feedUrl = "";
+        Fragment feedFragment = RssFeedFragment.newInstance(feedUrl);
+
         FragmentManager fm = getFragmentManager();
         fm.beginTransaction()
-                .add(R.id.fragmentContainer, new RssFeedFragment())
+                .add(R.id.fragmentContainer, feedFragment)
                 .add(R.id.listContainer, new RssFeedItemListFragment())
                 .commit();
     }
