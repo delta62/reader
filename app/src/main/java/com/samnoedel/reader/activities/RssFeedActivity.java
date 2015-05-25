@@ -22,11 +22,12 @@ public class RssFeedActivity extends FragmentActivity {
 
         String feedUrl = getIntent().getStringExtra(EXTRA_FEED_URL);
         Fragment feedFragment = RssFeedFragment.newInstance(feedUrl);
+        Fragment itemListFragment = RssFeedItemListFragment.newInstance(feedUrl);
 
         FragmentManager fm = getFragmentManager();
         fm.beginTransaction()
                 .add(R.id.fragmentContainer, feedFragment)
-                .add(R.id.listContainer, new RssFeedItemListFragment())
+                .add(R.id.listContainer, itemListFragment)
                 .commit();
     }
 

@@ -1,9 +1,9 @@
 package com.samnoedel.reader.fragments;
 
 
-import android.app.ListFragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,16 +11,33 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.j256.ormlite.dao.Dao;
 import com.samnoedel.reader.R;
 import com.samnoedel.reader.activities.HtmlReaderActivity;
+import com.samnoedel.reader.models.RssFeed;
 import com.samnoedel.reader.models.RssFeedItem;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
-public class RssFeedItemListFragment extends ListFragment {
+public class RssFeedItemListFragment extends OrmLiteListFragment {
+
+    private static final String EXTRA_FEED_URL = "feed_url";
+    private static final String TAG = RssFeedItemListFragment.class.getName();
 
     private ArrayList<RssFeedItem> mFeedItems;
 
+    public static RssFeedItemListFragment newInstance(String feedUrl) {
+        Bundle arguments = new Bundle();
+        arguments.putString(EXTRA_FEED_URL, feedUrl);
+        //noinspection deprecation
+        RssFeedItemListFragment fragment = new RssFeedItemListFragment();
+        fragment.setArguments(arguments);
+        return fragment;
+    }
+
+    @Deprecated
     public RssFeedItemListFragment() {
         // Required empty public constructor
     }
@@ -43,12 +60,21 @@ public class RssFeedItemListFragment extends ListFragment {
     }
 
     private void initializeItems() {
-        mFeedItems = new ArrayList<>();
-        for (int i = 0; i < 25; i += 1) {
-            RssFeedItem feedItem = new RssFeedItem();
-            feedItem.setTitle("Feed item #" + i);
-            feedItem.setDescription("Feed item description #" + i);
-            mFeedItems.add(i, feedItem);
+        String feedUrl = getArguments().getString(EXTRA_FEED_URL);
+
+        try {
+            Dao<RssFeed, String> feedDao = getDatabaseHelper().getRssFeedDao();
+            Dao<RssFeedItem, String> feedItemDao = getDatabaseHelper().getRssFeedItemDao();
+
+            RssFeed feed = feedDao.queryForId(feedUrl);
+            List<RssFeedItem> feedItems = feedItemDao.queryForEq(RssFeedItem.COLUMN_RSS_FEED_ID, feedUrl);
+            for (RssFeedItem item : feedItems) {
+                item.setRssFeed(feed);
+            }
+            mFeedItems = new ArrayList<>(feedItems);
+        } catch (SQLException ex) {
+            Log.e(TAG, "Unable to create list of feed items", ex);
+            mFeedItems = new ArrayList<>();
         }
     }
 
