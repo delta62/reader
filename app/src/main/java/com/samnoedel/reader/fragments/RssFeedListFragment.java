@@ -58,8 +58,10 @@ public class RssFeedListFragment extends OrmLiteListFragment {
             RssFeed feed = getItem(position);
             TextView titleTextView = (TextView)convertView.findViewById(R.id.rss_feed_list_item_title);
             titleTextView.setText(feed.getTitle());
-            TextView descriptionTextView = (TextView)convertView.findViewById(R.id.rss_feed_list_item_description);
-            descriptionTextView.setText(feed.getDescription());
+            TextView urlTextView = (TextView)convertView.findViewById(R.id.rss_feed_list_item_url);
+            urlTextView.setText(feed.getUrl().getAuthority());
+//            TextView descriptionTextView = (TextView)convertView.findViewById(R.id.rss_feed_list_item_description);
+//            descriptionTextView.setText(feed.getDescription());
 
             return convertView;
         }

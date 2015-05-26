@@ -5,19 +5,18 @@ import android.util.Log;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
 
 @DatabaseTable(tableName = "rss_feed_items")
-public class RssFeedItem implements Serializable {
+public class RssFeedItem {
 
     public static final String COLUMN_RSS_FEED_ID = "rss_feed_url";
 
     private static final String TAG = RssFeedItem.class.getName();
 
-    @DatabaseField(columnName = COLUMN_RSS_FEED_ID, foreign = true)
+    @DatabaseField(columnName = COLUMN_RSS_FEED_ID, foreign = true, foreignAutoRefresh = true)
     private RssFeed mRssFeed;
     @DatabaseField(columnName = "title", canBeNull = false)
     private String mTitle;
@@ -25,7 +24,6 @@ public class RssFeedItem implements Serializable {
     private String mDescription;
     @DatabaseField(id = true, columnName = "url", canBeNull = false)
     private String mLinkText;
-    private URL mLink;
     @DatabaseField(columnName = "download_date", canBeNull = true)
     private Date mDownloadDate;
 
@@ -54,14 +52,15 @@ public class RssFeedItem implements Serializable {
     }
 
     public URL getLink() {
-        if (mLink == null && mLinkText != null) {
-            try {
-                mLink = new URL(mLinkText);
-            } catch (MalformedURLException e) {
-                Log.e(TAG, "Error while attempting to implicitly create feed item url");
-            }
+        if (mLinkText == null) {
+            return null;
         }
-        return mLink;
+        try {
+            return new URL(mLinkText);
+        } catch (MalformedURLException e) {
+            Log.e(TAG, "Error while attempting to implicitly create feed item url");
+            return null;
+        }
     }
 
     public Date getDownloadDate() {
@@ -73,7 +72,6 @@ public class RssFeedItem implements Serializable {
     }
 
     public void setLink(URL link) {
-        mLink = link;
-        mLinkText = mLink.toString();
+        mLinkText = link.toString();
     }
 }

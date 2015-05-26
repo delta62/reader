@@ -61,10 +61,8 @@ public class RssFeedFragment extends OrmLiteFragment {
 
         TextView nameTextView = (TextView) v.findViewById(R.id.feedName);
         nameTextView.setText(mFeed.getTitle());
-        TextView descriptionTextView = (TextView) v.findViewById(R.id.feedDescription);
-        descriptionTextView.setText(mFeed.getDescription());
         TextView linkTextView = (TextView) v.findViewById(R.id.feedLink);
-        linkTextView.setText(mFeed.getUrl().toString());
+        linkTextView.setText(mFeed.getUrl().getAuthority());
 
         return v;
     }

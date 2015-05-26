@@ -1,23 +1,35 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             android:orientation="vertical"
              tools:context="com.samnoedel.reader.fragments.RssFeedFragment">
 
     <TextView
         android:id="@+id/feedName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:id="@+id/feedDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textSize="24sp"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/feedLink"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/feedName"
+        android:layout_toRightOf="@id/feedName"
+        android:layout_toLeftOf="@+id/optionsButton"
+        android:layout_toStartOf="@id/optionsButton"
+        android:textStyle="bold"
+        android:gravity="center_vertical|end" />
 
-</LinearLayout>
+    <ImageButton
+        android:id="@id/optionsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:contentDescription="@string/label_settings"/>
+
+</RelativeLayout>

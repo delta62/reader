@@ -4,14 +4,12 @@ import android.content.Context;
 import android.util.Log;
 
 import com.samnoedel.reader.fs.FileHelper;
+import com.samnoedel.reader.fs.GetFileTask;
 import com.samnoedel.reader.models.RssFeedItem;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URL;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.ExecutionException;
 
 /**

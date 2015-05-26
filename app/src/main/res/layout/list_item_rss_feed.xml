@@ -1,14 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="6dp"
+    android:paddingBottom="6dp">
 
-    <TextView android:layout_width="match_parent"
+    <LinearLayout
         android:layout_height="wrap_content"
-        android:id="@+id/rss_feed_list_item_title" />
+        android:layout_width="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:orientation="vertical">
 
-    <TextView android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/rss_feed_list_item_description" />
+        <TextView
+            android:id="@+id/rss_feed_list_item_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/rss_feed_list_item_url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:paddingLeft="4dp"
+        android:paddingStart="4dp"
+        android:paddingRight="4dp"
+        android:paddingEnd="4dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/new_items"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingBottom="2dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:paddingTop="2dp"
+            android:layout_gravity="center_vertical"
+            android:text="10 new"
+            android:background="@color/green"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

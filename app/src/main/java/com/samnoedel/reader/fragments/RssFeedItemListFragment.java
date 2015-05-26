@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.j256.ormlite.dao.Dao;
 import com.samnoedel.reader.R;
 import com.samnoedel.reader.activities.HtmlReaderActivity;
-import com.samnoedel.reader.models.RssFeed;
 import com.samnoedel.reader.models.RssFeedItem;
 
 import java.sql.SQLException;
@@ -63,14 +62,9 @@ public class RssFeedItemListFragment extends OrmLiteListFragment {
         String feedUrl = getArguments().getString(EXTRA_FEED_URL);
 
         try {
-            Dao<RssFeed, String> feedDao = getDatabaseHelper().getRssFeedDao();
             Dao<RssFeedItem, String> feedItemDao = getDatabaseHelper().getRssFeedItemDao();
 
-            RssFeed feed = feedDao.queryForId(feedUrl);
             List<RssFeedItem> feedItems = feedItemDao.queryForEq(RssFeedItem.COLUMN_RSS_FEED_ID, feedUrl);
-            for (RssFeedItem item : feedItems) {
-                item.setRssFeed(feed);
-            }
             mFeedItems = new ArrayList<>(feedItems);
         } catch (SQLException ex) {
             Log.e(TAG, "Unable to create list of feed items", ex);

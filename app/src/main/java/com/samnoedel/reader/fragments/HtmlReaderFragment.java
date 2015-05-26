@@ -58,17 +58,12 @@ public class HtmlReaderFragment extends OrmLiteFragment {
     private String getFeedIndexPath() {
         String feedUrl = getArguments().getString(EXTRA_FEED_ITEM_URL);
         try {
-            Dao<RssFeed, String> feedDao = getDatabaseHelper().getRssFeedDao();
             Dao<RssFeedItem, String> feedItemDao = getDatabaseHelper().getRssFeedItemDao();
-
             RssFeedItem feedItem = feedItemDao.queryForId(feedUrl);
-            RssFeed feed = feedDao.;
-
-            feedItem.setRssFeed(feed);
 
             FileHelper fileHelper = new FileHelper(getActivity());
             File itemDirectory = fileHelper.getFeedItemDirectory(feedItem);
-            return itemDirectory.getAbsolutePath() + "/index.html";
+            return "file://" + itemDirectory.getAbsolutePath() + "/index.html";
         } catch (SQLException ex) {
             Log.e(TAG, "Unable to fetch feed item", ex);
             return null;

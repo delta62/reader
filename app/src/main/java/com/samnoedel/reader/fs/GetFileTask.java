@@ -1,7 +1,9 @@
-package com.samnoedel.reader.rss;
+package com.samnoedel.reader.fs;
 
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.samnoedel.reader.rss.FileDownloadInfo;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

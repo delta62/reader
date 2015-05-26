@@ -91,15 +91,8 @@ public class FeedDownloadService extends Service {
 
     private List<RssFeedItem> getRssFeedItems(String feedUrl) {
         try {
-            Dao<RssFeed, String> feedDao = getDatabaseHelper().getRssFeedDao();
             Dao<RssFeedItem, String> itemDao = getDatabaseHelper().getRssFeedItemDao();
-            RssFeed feed = feedDao.queryForId(feedUrl);
-            List<RssFeedItem> items = itemDao.queryForEq(RssFeedItem.COLUMN_RSS_FEED_ID, feedUrl);
-
-            for(RssFeedItem feedItem : items) {
-                feedItem.setRssFeed(feed);
-            }
-            return items;
+            return itemDao.queryForEq(RssFeedItem.COLUMN_RSS_FEED_ID, feedUrl);
         } catch (SQLException ex) {
             Log.e(TAG, "Error fetching feed items", ex);
             return new LinkedList<>();

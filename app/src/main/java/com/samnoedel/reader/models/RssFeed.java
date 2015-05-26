@@ -3,44 +3,44 @@ package com.samnoedel.reader.models;
 import android.util.Log;
 
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
-import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Collection;
 import java.util.List;
 
 @DatabaseTable(tableName = "rss_feeds")
-public class RssFeed implements Serializable {
+public class RssFeed {
 
     private static final String TAG = RssFeed.class.getName();
-    public static final String COLUMN_FEED_ID = "url";
 
-    @DatabaseField(id = true, columnName = COLUMN_FEED_ID, canBeNull = false)
+    @DatabaseField(id = true, columnName = "url", canBeNull = false)
     private String mUrlText;
-    private URL mUrl;
     @DatabaseField(columnName = "title", canBeNull = false)
     private String mTitle;
     @DatabaseField(columnName = "description", canBeNull = false)
     private String mDescription;
-
-    private List<RssFeedItem> mFeedItems;
+    @ForeignCollectionField(eager = false)
+    private Collection<RssFeedItem> mFeedItems;
 
     public RssFeed() { }
 
     public URL getUrl() {
-        if (mUrl == null && mUrlText != null) {
-            try {
-                mUrl = new URL(mUrlText);
-            } catch (MalformedURLException e) {
-                Log.e(TAG, "Error while attempting to implicitly create feed url");
-            }
+        if (mUrlText == null) {
+            return null;
         }
-        return mUrl;
+
+        try {
+            return new URL(mUrlText);
+        } catch (MalformedURLException e) {
+            Log.e(TAG, "Error while attempting to implicitly create feed url");
+            return null;
+        }
     }
 
     public void setUrl(URL url) {
-        mUrl = url;
         mUrlText = url.toString();
     }
 
@@ -60,7 +60,7 @@ public class RssFeed implements Serializable {
         mDescription = description;
     }
 
-    public List<RssFeedItem> getFeedItems() {
+    public Collection<RssFeedItem> getFeedItems() {
         return mFeedItems;
     }
 

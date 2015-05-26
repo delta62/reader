@@ -29,4 +29,7 @@
     <string name="service_stopped">Stopped the service!</string>
     <string name="no_feeds">Use the address bar above to add a feed</string>
 
+    <!-- Settings strings -->
+    <string name="label_settings">Settings</string>
+
 </resources>
