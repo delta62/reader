@@ -1,6 +1,7 @@
 package com.samnoedel.reader.fragments;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -37,6 +38,12 @@ public class RssFeedListFragment extends OrmLiteListFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        ((RssFeedAdapter)getListAdapter()).notifyDataSetChanged();
+    }
+
+    @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         RssFeed feed = ((RssFeedAdapter)getListAdapter()).getItem(position);
         Intent i = new Intent(getActivity(), RssFeedActivity.class);
@@ -60,8 +67,17 @@ public class RssFeedListFragment extends OrmLiteListFragment {
             titleTextView.setText(feed.getTitle());
             TextView urlTextView = (TextView)convertView.findViewById(R.id.rss_feed_list_item_url);
             urlTextView.setText(feed.getUrl().getAuthority());
-//            TextView descriptionTextView = (TextView)convertView.findViewById(R.id.rss_feed_list_item_description);
-//            descriptionTextView.setText(feed.getDescription());
+
+            int unreadCount = feed.getUnreadCount();
+            TextView newItemsTextView = (TextView)convertView.findViewById(R.id.new_items);
+            if (unreadCount == 0) {
+                newItemsTextView.setVisibility(View.INVISIBLE);
+            } else {
+                Resources resources = getResources();
+                String rawString = resources.getString(R.string.new_items);
+                newItemsTextView.setText(String.format(rawString, unreadCount));
+            }
+
 
             return convertView;
         }

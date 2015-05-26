@@ -94,6 +94,12 @@ public class RssFeedItemListFragment extends OrmLiteListFragment {
             itemName.setText(feedItem.getTitle());
             TextView itemDescription = (TextView)convertView.findViewById(R.id.feedItemDescription);
             itemDescription.setText(feedItem.getDescription());
+            TextView newItemFlag = (TextView)convertView.findViewById(R.id.new_item);
+            if (feedItem.isNew()) {
+                newItemFlag.setVisibility(View.VISIBLE);
+            } else {
+                newItemFlag.setVisibility(View.INVISIBLE);
+            }
 
             return convertView;
         }

@@ -10,7 +10,6 @@ import android.webkit.WebView;
 import com.j256.ormlite.dao.Dao;
 import com.samnoedel.reader.R;
 import com.samnoedel.reader.fs.FileHelper;
-import com.samnoedel.reader.models.RssFeed;
 import com.samnoedel.reader.models.RssFeedItem;
 
 import java.io.File;
@@ -22,6 +21,7 @@ public class HtmlReaderFragment extends OrmLiteFragment {
     private static final String TAG = HtmlReaderFragment.class.getName();
 
     private String mIndexUrl;
+    private RssFeedItem mFeedItem;
 
     public static HtmlReaderFragment newInstance(String feedItemUrl) {
         Bundle arguments = new Bundle();
@@ -39,7 +39,9 @@ public class HtmlReaderFragment extends OrmLiteFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mIndexUrl = getFeedIndexPath();
+        getFeedItem();
+        getFeedIndexPath();
+        markFeedAsRead();
     }
 
     @Override
@@ -55,18 +57,32 @@ public class HtmlReaderFragment extends OrmLiteFragment {
         return v;
     }
 
-    private String getFeedIndexPath() {
+    private void getFeedIndexPath() {
+        FileHelper fileHelper = new FileHelper(getActivity());
+        File itemDirectory = fileHelper.getFeedItemDirectory(mFeedItem);
+        mIndexUrl = "file://" + itemDirectory.getAbsolutePath() + "/index.html";
+    }
+
+    private void getFeedItem() {
         String feedUrl = getArguments().getString(EXTRA_FEED_ITEM_URL);
         try {
             Dao<RssFeedItem, String> feedItemDao = getDatabaseHelper().getRssFeedItemDao();
-            RssFeedItem feedItem = feedItemDao.queryForId(feedUrl);
-
-            FileHelper fileHelper = new FileHelper(getActivity());
-            File itemDirectory = fileHelper.getFeedItemDirectory(feedItem);
-            return "file://" + itemDirectory.getAbsolutePath() + "/index.html";
+            mFeedItem = feedItemDao.queryForId(feedUrl);
         } catch (SQLException ex) {
             Log.e(TAG, "Unable to fetch feed item", ex);
-            return null;
+        }
+    }
+
+    private void markFeedAsRead() {
+        if (mFeedItem.isNew()) {
+            mFeedItem.setViewed();
+        }
+
+        try {
+            Dao<RssFeedItem, String> feedItemDao = getDatabaseHelper().getRssFeedItemDao();
+            feedItemDao.update(mFeedItem);
+        } catch (SQLException ex) {
+            Log.e(TAG, "Unable to mark feed item as read", ex);
         }
     }
 }

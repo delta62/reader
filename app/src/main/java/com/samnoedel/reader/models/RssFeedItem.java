@@ -26,6 +26,10 @@ public class RssFeedItem {
     private String mLinkText;
     @DatabaseField(columnName = "download_date", canBeNull = true)
     private Date mDownloadDate;
+    @DatabaseField(columnName = "viewed_on", canBeNull = true)
+    private Date mViewedOn;
+    @DatabaseField(columnName = "pinned", canBeNull = false)
+    private boolean mIsPinned;
 
     public String getTitle() {
         return mTitle;
@@ -73,5 +77,21 @@ public class RssFeedItem {
 
     public void setLink(URL link) {
         mLinkText = link.toString();
+    }
+
+    public boolean isPinned() {
+        return mIsPinned;
+    }
+
+    public void setIsPinned(boolean isPinned) {
+        mIsPinned = isPinned;
+    }
+
+    public boolean isNew() {
+        return mViewedOn == null;
+    }
+
+    public void setViewed() {
+        mViewedOn = new Date();
     }
 }

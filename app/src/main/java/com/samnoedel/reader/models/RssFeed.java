@@ -68,6 +68,14 @@ public class RssFeed {
         mFeedItems = feedItems;
     }
 
+    public int getUnreadCount() {
+        int unreadCount = 0;
+        for (RssFeedItem feedItem : mFeedItems) {
+            if (feedItem.isNew()) { unreadCount += 1; }
+        }
+        return unreadCount;
+    }
+
     @Override
     public String toString() {
         return mTitle;

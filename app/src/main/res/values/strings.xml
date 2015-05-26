@@ -16,6 +16,9 @@
     <string name="label_view_feeds">View Feeds</string>
     <string name="title_activity_feed_list">FeedListActivity</string>
 
+    <string name="new_item">new</string>
+    <string name="new_items">%d new</string>
+
     <!-- Error strings -->
     <string name="fetch_rss_error">Unable to load the RSS stream. Did you enter the right URL?</string>
 

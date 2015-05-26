@@ -48,7 +48,6 @@
             android:paddingRight="4dp"
             android:paddingTop="2dp"
             android:layout_gravity="center_vertical"
-            android:text="10 new"
             android:background="@color/green"
             android:textColor="@color/white"/>
 
