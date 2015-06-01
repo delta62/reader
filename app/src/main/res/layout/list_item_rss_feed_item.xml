@@ -47,6 +47,12 @@
             android:text="@string/new_item"
             android:textColor="@color/white"/>
 
+        <TextView
+            android:id="@+id/pin_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
     </LinearLayout>
 
 </RelativeLayout>

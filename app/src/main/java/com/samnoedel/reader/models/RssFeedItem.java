@@ -3,10 +3,12 @@ package com.samnoedel.reader.models;
 import android.util.Log;
 
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Collection;
 import java.util.Date;
 
 @DatabaseTable(tableName = "rss_feed_items")
@@ -18,18 +20,24 @@ public class RssFeedItem {
 
     @DatabaseField(columnName = COLUMN_RSS_FEED_ID, foreign = true, foreignAutoRefresh = true)
     private RssFeed mRssFeed;
+
     @DatabaseField(columnName = "title", canBeNull = false)
     private String mTitle;
+
     @DatabaseField(columnName = "description", canBeNull = false)
     private String mDescription;
+
     @DatabaseField(id = true, columnName = "url", canBeNull = false)
     private String mLinkText;
+
     @DatabaseField(columnName = "download_date", canBeNull = true)
     private Date mDownloadDate;
+
     @DatabaseField(columnName = "viewed_on", canBeNull = true)
     private Date mViewedOn;
-    @DatabaseField(columnName = "pinned", canBeNull = false)
-    private boolean mIsPinned;
+
+    @DatabaseField(columnName = "item_content", canBeNull = true)
+    private String mItemContent;
 
     public String getTitle() {
         return mTitle;
@@ -67,24 +75,12 @@ public class RssFeedItem {
         }
     }
 
-    public Date getDownloadDate() {
-        return mDownloadDate;
-    }
-
     public void setDownloadDate(Date downloadDate) {
         mDownloadDate = downloadDate;
     }
 
     public void setLink(URL link) {
         mLinkText = link.toString();
-    }
-
-    public boolean isPinned() {
-        return mIsPinned;
-    }
-
-    public void setIsPinned(boolean isPinned) {
-        mIsPinned = isPinned;
     }
 
     public boolean isNew() {

@@ -18,10 +18,13 @@ public class RssFeed {
 
     @DatabaseField(id = true, columnName = "url", canBeNull = false)
     private String mUrlText;
+
     @DatabaseField(columnName = "title", canBeNull = false)
     private String mTitle;
+
     @DatabaseField(columnName = "description", canBeNull = false)
     private String mDescription;
+
     @ForeignCollectionField(eager = false)
     private Collection<RssFeedItem> mFeedItems;
 
@@ -50,10 +53,6 @@ public class RssFeed {
 
     public void setTitle(String name) {
         mTitle = name;
-    }
-
-    public String getDescription() {
-        return mDescription;
     }
 
     public void setDescription(String description) {

@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.j256.ormlite.dao.Dao;
 import com.samnoedel.reader.R;
-import com.samnoedel.reader.activities.HtmlReaderActivity;
 import com.samnoedel.reader.models.RssFeedItem;
 
 import java.sql.SQLException;
@@ -53,9 +52,6 @@ public class RssFeedItemListFragment extends OrmLiteListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         RssFeedItem feedItem = (RssFeedItem)getListAdapter().getItem(position);
-        Intent i = new Intent(getActivity(), HtmlReaderActivity.class);
-        i.putExtra(HtmlReaderActivity.EXTRA_FEED_ITEM_URL, feedItem.getLink().toString());
-        startActivity(i);
     }
 
     private void initializeItems() {

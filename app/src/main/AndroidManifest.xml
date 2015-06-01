@@ -31,8 +31,6 @@
             android:name=".activities.RssFeedActivity"
             android:label="@string/title_activity_rss_feed" >
         </activity>
-        <activity android:name=".activities.HtmlReaderActivity" >
-        </activity>
 
         <!-- SERVICES -->
 
