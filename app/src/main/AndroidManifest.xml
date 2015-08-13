@@ -4,6 +4,7 @@
 
     <!-- PERMISSIONS -->
 
+
     <!-- Needed to start auto-download service -->
     <uses-permission android:name="ANDROID.PERMISSION.RECEIVE_BOOT_COMPLETED" />
     <!-- Needed to download feed data -->
@@ -34,6 +35,7 @@
 
         <!-- SERVICES -->
 
+
         <!-- Download feeds and update the database -->
         <service
             android:name=".service.FeedDownloadService"
@@ -42,11 +44,12 @@
 
         <!-- BROADCAST RECEIVERS -->
 
+
         <!-- Schedule first feed download automatically on startup -->
         <receiver
             android:name=".receivers.BootReceiver"
             android:enabled="true"
-            android:exported="false">
+            android:exported="false" >
             <intent-filter>
                 <action android:name="ANDROID.INTENT.ACTION.BOOT_COMPLETED" />
             </intent-filter>
@@ -58,6 +61,11 @@
             android:enabled="true"
             android:exported="false" >
         </receiver>
+
+        <activity
+            android:name=".activities.FullscreenActivity"
+            android:label="@string/title_activity_fullscreen" >
+        </activity>
     </application>
 
 </manifest>

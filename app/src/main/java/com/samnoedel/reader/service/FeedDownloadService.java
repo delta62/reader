@@ -24,6 +24,7 @@ import java.util.List;
  * Handles downloading & saving of new feed content
  */
 public class FeedDownloadService extends Service {
+    // TODO: Batching requests
     // TODO: Logic for downloading only updated feed items
     // TODO: Logic for deleting old feed items
 

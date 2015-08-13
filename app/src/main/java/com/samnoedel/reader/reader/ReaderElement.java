@@ -26,7 +26,7 @@ public abstract class ReaderElement {
     public abstract View getView(Context context);
 
     static ReaderElementType getElementTypeByString(String elementName) {
-        switch (elementName) {
+        switch (elementName.toLowerCase()) {
             case "heading1":
                 return ReaderElementType.HEADING_1;
             case "heading2":

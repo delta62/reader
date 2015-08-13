@@ -1,4 +1,4 @@
-package com.samnoedel.reader.rss;
+package com.samnoedel.reader.xml;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;

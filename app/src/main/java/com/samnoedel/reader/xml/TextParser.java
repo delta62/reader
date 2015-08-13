@@ -1,4 +1,6 @@
-package com.samnoedel.reader.rss;
+package com.samnoedel.reader.xml;
+
+import com.samnoedel.reader.xml.IXmlTagParser;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -23,7 +25,7 @@ public class TextParser implements IXmlTagParser<String> {
     }
 
     public String parse(XmlPullParser parser) throws IOException, XmlPullParserException {
-        parser.next();
+        parser.nextText();
         mParsedText = parser.getText();
         parser.next(); // Move to end tag
         parser.next(); // Move past end tag

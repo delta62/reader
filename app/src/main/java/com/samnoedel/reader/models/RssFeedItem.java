@@ -3,12 +3,10 @@ package com.samnoedel.reader.models;
 import android.util.Log;
 
 import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Collection;
 import java.util.Date;
 
 @DatabaseTable(tableName = "rss_feed_items")
@@ -89,5 +87,9 @@ public class RssFeedItem {
 
     public void setViewed() {
         mViewedOn = new Date();
+    }
+
+    public String getItemContent() {
+        return mItemContent;
     }
 }
